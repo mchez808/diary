@@ -40,8 +40,10 @@ def menu_loop():
 
 def add_entry():
 	"""Add an entry."""
-	print("Enter a diary entry. Press CTRL+D to submit.")
-	data = sys.stdin.read().strip()
+	# print("Enter a diary entry. Press CTRL+D to submit.")
+	# data = sys.stdin.read().strip()
+	print("Enter a one-line diary entry. Press Enter to submit.")
+	data = input()
 
 	if data:
 		if input("Submit entry? [Yn] ").lower() != "n":
@@ -61,11 +63,14 @@ def view_entries(search_query=None):
 		print('='*len(timestamp))
 		print(entry.content)
 		print("n) next entry")
+		print("d) delete entry")
 		print("q)' return to main menu")
-		
-		next_action = input('Action: [Nq] '.lower().strip())
+
+		next_action = input('Action: [Ndq] '.lower().strip())
 		if next_action == 'q':
 			break
+		elif next_action == 'q':
+			delete_entry(entry)
 
 
 def search_entries():
@@ -74,7 +79,10 @@ def search_entries():
 
 
 def delete_entry(entry):
-	"""Delete this entry."""
+    """Delete this entry."""
+    if ("Are you sure you want to delete? [yN] ").lower() == 'y':
+        Entry.delete_instance()
+        input("Entry deleted.")
 
 
 menu = OrderedDict([
