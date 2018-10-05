@@ -2,6 +2,8 @@
 
 from collections import OrderedDict
 import datetime
+import sys
+
 from peewee import *
 
 db = SqliteDatabase('diary.db')
@@ -26,6 +28,7 @@ def menu_loop():
 	choice = None
 
 	while choice != 'q':
+		print("------------------")
 		print("Enter 'q' to quit.")
 		for key, value in menu.items():
 			print("{}) {} ".format(key, value.__doc__))
@@ -37,6 +40,13 @@ def menu_loop():
 
 def add_entry():
 	"""Add an entry."""
+	print("Enter a diary entry. Press CTRL+D to submit.")
+	data = sys.stdin.read().strip()
+
+	if data:
+		if input("Submit entry? [Yn] ").lower() != "n":
+			Entry.create(content=data)
+			print("Entry submitted.")
 
 
 def view_entries(search_query=None):
